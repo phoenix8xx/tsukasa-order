@@ -425,7 +425,22 @@ function goBack() {
 
 function submitOrder() {
   const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
   const time = document.getElementById('pickup-time').value;
+
+  const ordered = MENU.filter(m => qty[m.id] > 0);
+  const items = ordered.map(m => `${m.name}×${qty[m.id]}本`).join('、');
+  const total = ordered.reduce((sum, m) => sum + m.price * qty[m.id], 0);
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3Jp0TzEGjEqUtw_2EI-AQiMpZ854ZYHxQrAQHfBhP4hZUENUzRp4ROJYXe9fDZ4C8SQ/exec';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, pickupTime: time, items, total: `¥${total.toLocaleString()}` })
+  });
+
   document.getElementById('complete-summary').textContent = `${name} 様｜受け取り ${time}`;
   document.getElementById('confirm-screen').style.display = 'none';
   document.getElementById('complete-screen').style.display = 'block';
