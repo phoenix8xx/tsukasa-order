@@ -432,7 +432,7 @@ function submitOrder() {
   const items = ordered.map(m => `${m.name}×${qty[m.id]}本`).join('、');
   const total = ordered.reduce((sum, m) => sum + m.price * qty[m.id], 0);
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3Jp0TzEGjEqUtw_2EI-AQiMpZ854ZYHxQrAQHfBhP4hZUENUzRp4ROJYXe9fDZ4C8SQ/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnACWHIJVKLWLyTviiUKEO8012Opglu5lcOfEzYW2Z1SOAKjfns3mVb-mrrV5Ehq3Y/exec';
 
   fetch(SCRIPT_URL, {
     method: 'POST',
