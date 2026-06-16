@@ -432,13 +432,12 @@ function submitOrder() {
   const items = ordered.map(m => `${m.name}×${qty[m.id]}本`).join('、');
   const total = ordered.reduce((sum, m) => sum + m.price * qty[m.id], 0);
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_aUh2Bl8AIIHi3aYFai7MaPobUt4TjMjaHYpFIhCi2QA7JNaIqyEgncMxrYDYmJUcpg/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0e6PsLBvMFQIeFD2VDo0Ti_DYwH-q3s26iyyUX3VYRcKPCh4cdVPysYRECkCSxdR7jA/exec';
 
-  fetch(SCRIPT_URL, {
-    method: 'POST',
+  const params = new URLSearchParams({name, phone, pickupTime: time, items, total: '\¥' + total.toLocaleString()});
+  fetch(SCRIPT_URL + '?' + params.toString(), {
+    method: 'GET',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, phone, pickupTime: time, items, total: `¥${total.toLocaleString()}` })
   });
 
   document.getElementById('complete-summary').textContent = `${name} 様｜受け取り ${time}`;
